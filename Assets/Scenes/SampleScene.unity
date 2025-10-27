@@ -423,6 +423,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1093227051814570, guid: 10f84544be16ae74c9e9cf426210d320, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1185303888046672, guid: 10f84544be16ae74c9e9cf426210d320, type: 3}
       propertyPath: m_Name
       value: Character_Mexican_Female_01
