@@ -77,7 +77,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""2 axis"",
+                    ""name"": ""WASD"",
                     ""id"": ""445cb97b-6cf7-4776-a165-14d111375132"",
                     ""path"": ""2DVector"",
                     ""interactions"": """",

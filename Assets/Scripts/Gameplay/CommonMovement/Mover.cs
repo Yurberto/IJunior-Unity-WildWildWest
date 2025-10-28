@@ -14,8 +14,15 @@ public class Mover : MonoBehaviour
 
     public void Move(Vector3 direction)
     {
-        Vector3 correctDirection = new Vector3(direction.x, _rigidbody.velocity.y, direction.z).normalized;
+        Vector3 currentVelocityY = new Vector3(0.0f, _rigidbody.velocity.y, 0.0f);
 
-        _rigidbody.velocity = correctDirection * _speed;
+        Vector3 correctDirectionXZ = new Vector3(direction.x, 0.0f, direction.z).normalized;
+
+        _rigidbody.velocity = currentVelocityY + (correctDirectionXZ * _speed);
+    }
+
+    public void Stop()
+    {
+        _rigidbody.velocity = new Vector3(0.0f, _rigidbody.velocity.y, 0.0f);
     }
 }

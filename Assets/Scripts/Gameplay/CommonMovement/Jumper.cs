@@ -4,6 +4,7 @@ using UnityEngine;
 public class Jumper : MonoBehaviour
 {
     [SerializeField, Range(0.0f, 20.0f)] private float _jumpForce = 5.0f;
+    [SerializeField] private GroundDetector _groundDetector;
 
     private Rigidbody _rigigbody;
 
@@ -14,6 +15,7 @@ public class Jumper : MonoBehaviour
 
     public void Jump()
     {
-        _rigigbody.AddForce(new Vector3(0.0f, _jumpForce, 0.0f), ForceMode.Impulse);
+        if (_groundDetector.IsGrounded())
+            _rigigbody.AddForce(new Vector3(0.0f, _jumpForce, 0.0f), ForceMode.Impulse);
     }
 }

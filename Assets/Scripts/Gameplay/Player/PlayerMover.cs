@@ -14,9 +14,19 @@ public class PlayerMover : MonoBehaviour
         _mover.Move(direction);
     }
 
+    public void StopMove()
+    {
+        _mover.Stop();
+    }
+
     public void LookAt(Vector3 direction)
     {
         _rotator.LookAt(direction);
+    }
+
+    public void Rotate(Vector3 mouseDelta)
+    {
+        _rotator.Rotate(mouseDelta);
     }
 
     public void Jump()

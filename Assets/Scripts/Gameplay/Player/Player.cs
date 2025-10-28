@@ -4,9 +4,11 @@ using Zenject;
 public class Player : MonoBehaviour
 {
     [SerializeField] private PlayerMover _playerMover;
-    [SerializeField] private CameraRotator _cameraRotator;
 
     private PlayerInputReader _inputReader;
+
+    private Vector3 _currentMoveDirection = Vector3.zero;
+    private Vector2 _currentMouseDelta = Vector3.zero;
 
     [Inject]
     private void Construct(PlayerInputReader playerInputReader)
@@ -16,29 +18,41 @@ public class Player : MonoBehaviour
 
     private void OnEnable()
     {
-        _inputReader.MoveDirectionUpdated += Move;
-        _inputReader.LookDirectionUpdated += Rotate;
+        _inputReader.MoveDirectionUpdated += OnMove;
+        _inputReader.LookDirectionUpdated += OnLook;
 
         _inputReader.Jumped += Jump;
     }
 
     private void OnDisable()
     {
-        _inputReader.MoveDirectionUpdated -= Move;
-        _inputReader.LookDirectionUpdated -= Rotate;
+        _inputReader.MoveDirectionUpdated -= OnMove;
+        _inputReader.LookDirectionUpdated -= OnLook;
 
         _inputReader.Jumped -= Jump;
     }
 
-    private void Move(Vector3 direction)
+    private void Update()
     {
-        _playerMover.Move(direction);
-        _playerMover.LookAt(direction);
+        if (_currentMoveDirection == Vector3.zero)
+        {
+            _playerMover.StopMove();
+        }
+        else
+        {
+            _playerMover.Move(_currentMoveDirection);
+            _playerMover.LookAt(_currentMoveDirection);
+        }
     }
 
-    private void Rotate(Vector3 offset)
-    { 
-        _cameraRotator.Rotate(offset);
+    private void OnLook(Vector2 mouseDelta)
+    {
+        _currentMouseDelta = mouseDelta;
+    }
+
+    private void OnMove(Vector3 direction)
+    {
+        _currentMoveDirection = direction;
     }
 
     private void Jump()

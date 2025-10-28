@@ -11,7 +11,7 @@ public class PlayerInputReader : IInitializable, IDisposable
     Vector2 _lookDirection;
 
     public event Action<Vector3> MoveDirectionUpdated;
-    public event Action<Vector3> LookDirectionUpdated;
+    public event Action<Vector2> LookDirectionUpdated;
     public event Action Jumped;
 
     public void Initialize()
@@ -19,6 +19,8 @@ public class PlayerInputReader : IInitializable, IDisposable
         _playerInput.Enable();
 
         _playerInput.Player.Move.performed += OnMove;
+        _playerInput.Player.Move.canceled += OnStopMove;
+
         _playerInput.Player.Look.performed += OnLook;
         _playerInput.Player.Jump.performed += OnJump;
 
@@ -30,6 +32,8 @@ public class PlayerInputReader : IInitializable, IDisposable
         _playerInput.Disable();
 
         _playerInput.Player.Move.performed -= OnMove;
+        _playerInput.Player.Move.canceled -= OnStopMove;
+
         _playerInput.Player.Look.performed -= OnLook;
         _playerInput.Player.Jump.performed -= OnJump;
 
@@ -43,6 +47,13 @@ public class PlayerInputReader : IInitializable, IDisposable
         MoveDirectionUpdated?.Invoke(new Vector3(_moveDirection.x, 0.0f, _moveDirection.y));
 
         Debug.Log("Moved: " + _moveDirection.ToString());
+    }
+
+    private void OnStopMove(InputAction.CallbackContext context)
+    {
+        _moveDirection = Vector2.zero;
+
+        MoveDirectionUpdated?.Invoke(_moveDirection);
     }
 
     private void OnJump(InputAction.CallbackContext context)

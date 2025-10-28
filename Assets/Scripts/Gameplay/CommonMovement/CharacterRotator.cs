@@ -2,18 +2,22 @@ using UnityEngine;
 
 public class CharacterRotator : MonoBehaviour
 {
-    private const float SpeedMultiplier = 1000f;
+    private const float SpeedDivider = 100f;
 
-    [SerializeField, Range(0.0f, 100.0f)] private float _rotationSpeed = 100.0f;
+    [SerializeField] private Transform _body;
+    [SerializeField, Range(0.0f, 100.0f)] private float _rotationSpeed = 1.2f;
 
-    public void LookAt(Vector3 targetPosition)
+    public void LookAt(Vector3 direction)
     {
-        Vector3 direction = targetPosition - transform.position;
-        direction.y = 0f;
+        if (direction != Vector3.zero)
+        {
+            Vector3 smoothedForward = Vector3.Slerp(_body.forward, direction, _rotationSpeed / SpeedDivider);
+            _body.forward = smoothedForward;
+        }
+    }
 
-        Quaternion targetRotation = Quaternion.LookRotation(direction);
-        Quaternion targetRotationY = Quaternion.Euler(0.0f, targetRotation.y, 0.0f);
-
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotationY, _rotationSpeed * SpeedMultiplier * Time.deltaTime);
+    public void Rotate(Vector2 mouseDelta)
+    {
+        
     }
 }
