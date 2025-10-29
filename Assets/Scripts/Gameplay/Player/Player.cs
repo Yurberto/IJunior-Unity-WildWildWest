@@ -8,7 +8,6 @@ public class Player : MonoBehaviour
     private PlayerInputReader _inputReader;
 
     private Vector3 _currentMoveDirection = Vector3.zero;
-    private Vector2 _currentMouseDelta = Vector3.zero;
 
     [Inject]
     private void Construct(PlayerInputReader playerInputReader)
@@ -19,7 +18,6 @@ public class Player : MonoBehaviour
     private void OnEnable()
     {
         _inputReader.MoveDirectionUpdated += OnMove;
-        _inputReader.LookDirectionUpdated += OnLook;
 
         _inputReader.Jumped += Jump;
     }
@@ -27,7 +25,6 @@ public class Player : MonoBehaviour
     private void OnDisable()
     {
         _inputReader.MoveDirectionUpdated -= OnMove;
-        _inputReader.LookDirectionUpdated -= OnLook;
 
         _inputReader.Jumped -= Jump;
     }
@@ -41,13 +38,8 @@ public class Player : MonoBehaviour
         else
         {
             _playerMover.Move(_currentMoveDirection);
-            _playerMover.LookAt(_currentMoveDirection);
+            _playerMover.RotateBody(_currentMoveDirection);
         }
-    }
-
-    private void OnLook(Vector2 mouseDelta)
-    {
-        _currentMouseDelta = mouseDelta;
     }
 
     private void OnMove(Vector3 direction)

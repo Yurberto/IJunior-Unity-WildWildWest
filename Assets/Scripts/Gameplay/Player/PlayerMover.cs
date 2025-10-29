@@ -2,15 +2,20 @@ using UnityEngine;
 
 [RequireComponent(typeof(Mover))]
 [RequireComponent(typeof(Jumper))]
-[RequireComponent(typeof(CharacterRotator))]
+[RequireComponent(typeof(Rotator))]
 public class PlayerMover : MonoBehaviour
 {
+    [SerializeField] private Camera _playerCamera;
+    [Space] 
     [SerializeField] private Mover _mover;
     [SerializeField] private Jumper _jumper;
-    [SerializeField] private CharacterRotator _rotator;
+    [SerializeField] private Rotator _rotator;
 
     public void Move(Vector3 direction)
     {
+        direction = direction.x * _playerCamera.transform.right + direction.z * _playerCamera.transform.forward;
+        direction.y = 0f;
+
         _mover.Move(direction);
     }
 
@@ -19,14 +24,9 @@ public class PlayerMover : MonoBehaviour
         _mover.Stop();
     }
 
-    public void LookAt(Vector3 direction)
+    public void RotateBody(Vector3 direction)
     {
-        _rotator.LookAt(direction);
-    }
-
-    public void Rotate(Vector3 mouseDelta)
-    {
-        _rotator.Rotate(mouseDelta);
+        _rotator.Rotate(direction);
     }
 
     public void Jump()

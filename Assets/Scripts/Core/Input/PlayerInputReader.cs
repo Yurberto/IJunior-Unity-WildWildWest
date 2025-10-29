@@ -8,7 +8,7 @@ public class PlayerInputReader : IInitializable, IDisposable
     private PlayerInput _playerInput = new PlayerInput();
 
     Vector2 _moveDirection;
-    Vector2 _lookDirection;
+    Vector2 _mouseDelta;
 
     public event Action<Vector3> MoveDirectionUpdated;
     public event Action<Vector2> LookDirectionUpdated;
@@ -63,9 +63,9 @@ public class PlayerInputReader : IInitializable, IDisposable
 
     private void OnLook(InputAction.CallbackContext context)
     {
-        _lookDirection = context.action.ReadValue<Vector2>();
+        _mouseDelta = context.action.ReadValue<Vector2>();
 
-        LookDirectionUpdated?.Invoke(new Vector2(-_lookDirection.y, _lookDirection.x));
+        LookDirectionUpdated?.Invoke(new Vector2(-_mouseDelta.y, _mouseDelta.x));
     }
 
     private void OnShoot(InputAction.CallbackContext context)
