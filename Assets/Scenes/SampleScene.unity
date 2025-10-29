@@ -676,7 +676,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _body: {fileID: 875450139}
-  _rotationSpeed: 1.2
+  _rotationSpeed: 10
 --- !u!114 &1639131009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -716,6 +716,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1102de5f68f3f384aae09456bce6fffa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerCamera: {fileID: 1776676709}
   _mover: {fileID: 1639131010}
   _jumper: {fileID: 1639131009}
   _rotator: {fileID: 1639131008}
