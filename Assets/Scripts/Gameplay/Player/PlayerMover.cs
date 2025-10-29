@@ -26,7 +26,7 @@ public class PlayerMover : MonoBehaviour
 
     public void RotateBody(Vector3 direction)
     {
-        _rotator.Rotate(direction);
+        _rotator.RotateBody(direction);
     }
 
     public void Jump()
