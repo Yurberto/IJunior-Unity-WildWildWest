@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class HeroMoveState : IEnterableState, IExitableState, IFixableState, IUpdatableState
+public class HeroMoveOnGroundState : IEnterableState, IExitableState, IFixableState, IUpdatableState
 {
     private readonly IInputService _inputService;
 
@@ -12,7 +12,7 @@ public class HeroMoveState : IEnterableState, IExitableState, IFixableState, IUp
 
     private IStateChanger _stateChanger;
 
-    public HeroMoveState(IInputService inputService, IMover mover, IRotator rotator, IHeroView heroView, ICameraView cameraView)
+    public HeroMoveOnGroundState(IInputService inputService, IMover mover, IRotator rotator, IHeroView heroView, ICameraView cameraView)
     {
         _inputService = inputService;
         _mover = mover;
@@ -28,18 +28,20 @@ public class HeroMoveState : IEnterableState, IExitableState, IFixableState, IUp
 
     public void Enter()
     {
+        UnityEngine.Debug.Log("MoveOnGround_ENTER");
         _inputService.JumpButtonPressed += ChangeToJumpState;
     }
 
     public void Exit()
     {
+        UnityEngine.Debug.Log("MoveOnGround_EXIT");
         _inputService.JumpButtonPressed -= ChangeToJumpState;
     }
 
     public void FixedUpdate()
     {
         Vector3 direction = CalculateCurrentDirection();
-        _mover.Move(_heroView.PlayerSetting.MoveSpeed * Time.fixedDeltaTime, direction);
+        _mover.Move(_heroView.PlayerSetting.MoveSpeed * Time.fixedDeltaTime, _inputService.MoveDirection);
     }
 
     public void Update()
@@ -52,7 +54,7 @@ public class HeroMoveState : IEnterableState, IExitableState, IFixableState, IUp
         }
 
         Vector3 direction = CalculateCurrentDirection();
-        _rotator.RotateToDirection(_heroView.transform, direction, _heroView.PlayerSetting.RotateSpeed * Time.deltaTime);
+        _rotator.RotateToDirection(_heroView.transform, _inputService.MoveDirection, _heroView.PlayerSetting.RotateSpeed * Time.deltaTime);
     }
 
     private void ChangeToJumpState()

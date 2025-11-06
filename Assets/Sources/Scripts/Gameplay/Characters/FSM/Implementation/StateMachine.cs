@@ -4,18 +4,18 @@ using System.Linq;
 
 public class StateMachine : IStateChanger, IStateMachineUpdater
 {
-    private Dictionary<Type, IExitableState> _states;
+    private Dictionary<Type, IState> _states;
 
-    private IExitableState _currentState;
+    private IState _currentState;
 
-    public StateMachine(List<IExitableState> states)
+    public StateMachine(List<IState> states)
     {
         _states = states.ToDictionary(type => type.GetType(), value => value);
     }
 
-    public void ChangeState<T>() where T : IExitableState
+    public void ChangeState<T>() where T : IState
     {
-        if (_states.TryGetValue(typeof(T), out IExitableState newState))
+        if (_states.TryGetValue(typeof(T), out IState newState))
             ChangeState(newState);
         else
             throw new Exception($"State {typeof(T)} doesnt exist in StateMachine");
@@ -39,12 +39,14 @@ public class StateMachine : IStateChanger, IStateMachineUpdater
             updatableState.Update();
     }
 
-    private void ChangeState(IExitableState newState)
+    private void ChangeState(IState newState)
     {
         if (_currentState ==  newState)
             return;
 
-        _currentState?.Exit();
+        if (_currentState is IExitableState exitableState)
+        exitableState.Exit();
+
         _currentState = newState;
 
         if (_currentState is IEnterableState enterableState)

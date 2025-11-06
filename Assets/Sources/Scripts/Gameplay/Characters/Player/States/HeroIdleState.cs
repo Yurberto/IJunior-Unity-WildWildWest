@@ -18,20 +18,22 @@ public class HeroIdleState : IEnterableState, IUpdatableState, IExitableState
 
     public void Enter()
     {
+        UnityEngine.Debug.Log("Idle_ENTER");
+
         _inputService.JumpButtonPressed += ChangeToJumpState;
-        Debug.Log("IdleStateEnter");
     }
 
     public void Exit()
     {
+        UnityEngine.Debug.Log("Idle_Exit");
+
         _inputService.JumpButtonPressed -= ChangeToJumpState;
-        Debug.Log("IdleStateExit");
     }
 
     public void Update()
     {
         if (_inputService.MoveDirection.sqrMagnitude.MoreThenEpsilon())
-            ChangeToMoveState();
+            ChangeToMoveOnGroundState();
     }
 
     private void ChangeToJumpState()
@@ -39,8 +41,8 @@ public class HeroIdleState : IEnterableState, IUpdatableState, IExitableState
         _stateChanger.ChangeState<HeroJumpState>();
     }
 
-    private void ChangeToMoveState()
+    private void ChangeToMoveOnGroundState()
     {
-        _stateChanger.ChangeState<HeroMoveState>();
+        _stateChanger.ChangeState<HeroMoveOnGroundState>();
     }
 }

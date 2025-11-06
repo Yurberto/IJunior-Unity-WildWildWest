@@ -1,18 +1,17 @@
 using System.Collections.Generic;
-using UnityEngine;
 
 public class HeroStateMachineFactory 
 {
     private readonly IInputService _inputService;
 
-    private readonly IMover _mover;
+    private readonly IHeroMover _mover;
     private readonly IJumper _jumper;
     private readonly IRotator _rotator;
 
     private readonly IHeroView _heroView;
     private readonly ICameraView _cameraView;
 
-    public HeroStateMachineFactory(IInputService inputService, IMover mover, IJumper jumper, IRotator rotator, IHeroView heroView, ICameraView cameraView)
+    public HeroStateMachineFactory(IInputService inputService, IHeroMover mover, IJumper jumper, IRotator rotator, IHeroView heroView, ICameraView cameraView)
     {
         _inputService = inputService;
         _mover = mover;
@@ -24,11 +23,11 @@ public class HeroStateMachineFactory
 
     public StateMachine Create()
     {
-        List<IExitableState> exitableStates = new List<IExitableState>()
+        List<IState> exitableStates = new List<IState>()
         {
             new HeroIdleState(_inputService),
-            new HeroJumpState(_heroView.GroundDetector, _jumper, _heroView),
-            new HeroMoveState(_inputService, _mover, _rotator, _heroView, _cameraView)
+            new HeroMoveOnGroundState(_inputService, _mover, _rotator, _heroView, _cameraView),
+            new HeroJumpState(_inputService, _heroView.GroundDetector, _heroView, _cameraView, _mover, _jumper, _rotator)
         };
 
         StateMachine heroStateMachine = new StateMachine(exitableStates);

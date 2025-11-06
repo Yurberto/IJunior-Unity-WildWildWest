@@ -1,4 +1,4 @@
-public interface IFixableState 
+public interface IFixableState : IState
 {
     public void FixedUpdate();
 }

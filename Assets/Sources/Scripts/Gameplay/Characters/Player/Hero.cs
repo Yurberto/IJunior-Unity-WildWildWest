@@ -4,13 +4,15 @@ public class Hero : MonoBehaviour, IHeroView
 {
     [SerializeField] private PlayerSetting _playerSetting;
     [SerializeField] private GroundDetector _groundDetector;
+    [SerializeField] private Rigidbody _rigidbody;
 
     private IStateMachineUpdater _stateMachineUpdater;
 
-    [field: SerializeField] public Rigidbody Rigidbody { get; private set; }
+    public Rigidbody Rigidbody => _rigidbody;
 
     public IPlayerSetting PlayerSetting => _playerSetting;
     public IGroundDetector GroundDetector => _groundDetector;
+
 
     public void Construct(IStateMachineUpdater stateMachineUpdater)
     {

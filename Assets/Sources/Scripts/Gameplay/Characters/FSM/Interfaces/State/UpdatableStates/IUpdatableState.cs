@@ -1,4 +1,4 @@
-public interface IUpdatableState
+public interface IUpdatableState : IState
 {
     public void Update();
 }

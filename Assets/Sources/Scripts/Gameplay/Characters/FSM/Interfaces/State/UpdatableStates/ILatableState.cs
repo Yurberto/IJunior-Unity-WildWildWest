@@ -1,4 +1,4 @@
-public interface ILatableState 
+public interface ILatableState : IState
 {
     public void LateUpdate();
 }

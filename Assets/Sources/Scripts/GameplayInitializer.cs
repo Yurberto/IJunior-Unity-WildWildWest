@@ -22,7 +22,7 @@ public class GameplayInitializer : MonoBehaviour
 
     private void InitialzePlayer(IInputService inputService)
     {
-        IMover mover = new Mover(_hero.Rigidbody);
+        IHeroMover mover = new HeroMover(_hero.Rigidbody);
         IJumper jumper = new Jumper(_hero.Rigidbody);
         IRotator rotator = new Rotator();
 

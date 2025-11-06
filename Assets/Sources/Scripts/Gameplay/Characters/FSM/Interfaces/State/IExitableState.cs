@@ -1,5 +1,4 @@
-public interface IExitableState
+public interface IExitableState : IState
 {
-    public void SetStateChanger(IStateChanger stateChanger);
     public void Exit();
 }

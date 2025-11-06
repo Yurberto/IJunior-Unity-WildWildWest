@@ -1,4 +1,4 @@
 public interface IStateChanger
 {
-    public void ChangeState<T>() where T : IExitableState;
+    public void ChangeState<T>() where T : IState;
 }

@@ -12,6 +12,7 @@ public class GroundDetector : MonoBehaviour, IGroundDetector
     public bool IsGrounded()
     {
         int count = Physics.OverlapBoxNonAlloc(_boxCenterPoint.position, _boxHalfExtents, _hitted, Quaternion.identity, LayerData.Ground);
+        DrawUtils.DrawBox(_boxCenterPoint.position, _boxHalfExtents, Color.red);
 
         return count > 0;
     }
