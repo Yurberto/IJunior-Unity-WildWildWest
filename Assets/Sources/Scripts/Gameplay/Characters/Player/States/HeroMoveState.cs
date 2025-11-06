@@ -39,7 +39,7 @@ public class HeroMoveState : IEnterableState, IExitableState, IFixableState, IUp
     public void FixedUpdate()
     {
         Vector3 direction = CalculateCurrentDirection();
-        _mover.Move(_heroView.PlayerSetting.MoveSpeed, direction);
+        _mover.Move(_heroView.PlayerSetting.MoveSpeed * Time.fixedDeltaTime, direction);
     }
 
     public void Update()
@@ -51,7 +51,7 @@ public class HeroMoveState : IEnterableState, IExitableState, IFixableState, IUp
         }
 
         Vector3 direction = CalculateCurrentDirection();
-        _rotator.RotateToDirection(_heroView.transform, direction, _heroView.PlayerSetting.RotateSpeed);
+        _rotator.RotateToDirection(_heroView.transform, direction, _heroView.PlayerSetting.RotateSpeed * Time.deltaTime);
     }
 
     private void ChangeToJumpState()

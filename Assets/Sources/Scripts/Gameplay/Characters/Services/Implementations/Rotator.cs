@@ -4,6 +4,9 @@ public class Rotator : IRotator
 {
     public void RotateToDirection(Transform rotatable, Vector3 direction, float rotationSpeed)
     {
+        if (direction.sqrMagnitude.LessThenEpsilon())
+            return;
+
         direction.y = 0;
         direction.Normalize();
 

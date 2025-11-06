@@ -5,11 +5,19 @@ public class GameplayInitializer : MonoBehaviour
     [SerializeField] private Hero _hero;
     [SerializeField] private PlayerCamera _playerCamera;
 
+    private InputService _inputService;
+
     private void Awake()
     {
-        IInputService inputService = new InputService();
+        _inputService = new InputService();
+        _inputService.Initialize();
 
-        InitialzePlayer(inputService);
+        InitialzePlayer(_inputService);
+    }
+
+    private void OnDisable()
+    {
+        _inputService.Dispose();
     }
 
     private void InitialzePlayer(IInputService inputService)
