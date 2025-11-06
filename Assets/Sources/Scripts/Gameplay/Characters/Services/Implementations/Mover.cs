@@ -9,7 +9,11 @@ public class Mover : IMover
 
     public void Move(float moveSpeed, Vector3 direction)
     {
-        Vector3 targetPosition = _rigidbody.position + direction * moveSpeed;
+        if (direction.sqrMagnitude.LessThenEpsilon())
+            return;
+
+        Vector3 targetPosition = _rigidbody.position + direction.normalized * moveSpeed;
+
         _rigidbody.MovePosition(targetPosition);
     }
 

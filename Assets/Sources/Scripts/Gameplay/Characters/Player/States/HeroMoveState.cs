@@ -46,6 +46,7 @@ public class HeroMoveState : IEnterableState, IExitableState, IFixableState, IUp
     {
         if (_inputService.MoveDirection.sqrMagnitude.LessThenEpsilon())
         {
+            _mover.Stop();
             ChangeToIdleState();
             return;
         }
@@ -75,7 +76,7 @@ public class HeroMoveState : IEnterableState, IExitableState, IFixableState, IUp
         cameraForward.Normalize();
         cameraRight.Normalize();
 
-        Vector3 currentDirection = cameraForward * _inputService.MoveDirection.y + cameraRight * _inputService.MoveDirection.x;
+        Vector3 currentDirection = cameraForward * _inputService.MoveDirection.z + cameraRight * _inputService.MoveDirection.x;
 
         return currentDirection;
     }

@@ -17,6 +17,6 @@ public class Rotator : IRotator
     {
         Quaternion targetRotation = Quaternion.LookRotation(direction);
 
-        rotatable.rotation = Quaternion.Slerp(rotatable.rotation, targetRotation, rotationSpeed);
+        rotatable.rotation = Quaternion.Lerp(rotatable.rotation, targetRotation, rotationSpeed);
     }
 }
