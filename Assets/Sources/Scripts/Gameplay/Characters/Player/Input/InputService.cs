@@ -1,18 +1,17 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Zenject;
 
-public class InputService : IInputService, IInitializable, IDisposable
+public class InputService : IInputService
 {
     private PlayerInput _playerInput = new PlayerInput();
 
     public event Action JumpButtonPressed;
 
-    public event Action MoveButtonReleased;
-
     public event Action ShootPressed;
     public event Action ShootReleased;
+
+    public event Action<Vector2> MouseDeltaUpdated;
 
     public Vector3 MoveDirection { get; private set; }
 
@@ -20,25 +19,30 @@ public class InputService : IInputService, IInitializable, IDisposable
     {
         _playerInput.Enable();
 
-        _playerInput.Player.Jump.performed += OnJumpClicked;
+        _playerInput.Player.Look.performed += OnLook;
 
         _playerInput.Player.Move.performed += OnMoveButtonPressed;
         _playerInput.Player.Move.canceled += OnMoveButtonReleased;
+
+        _playerInput.Player.Jump.performed += OnJumpClicked;
     }
 
     public void Dispose()
     {
         _playerInput.Disable();
 
-        _playerInput.Player.Jump.performed -= OnJumpClicked;
+        _playerInput.Player.Look.performed -= OnLook;
 
         _playerInput.Player.Move.performed -= OnMoveButtonPressed;
         _playerInput.Player.Move.canceled -= OnMoveButtonReleased;
+
+        _playerInput.Player.Jump.performed -= OnJumpClicked;
     }
 
-    private void OnJumpClicked(InputAction.CallbackContext context)
+    private void OnLook(InputAction.CallbackContext context)
     {
-        JumpButtonPressed?.Invoke();
+        Vector2 offset = context.ReadValue<Vector2>();
+        MouseDeltaUpdated?.Invoke(offset);
     }
 
     private void OnMoveButtonPressed(InputAction.CallbackContext context)
@@ -50,5 +54,10 @@ public class InputService : IInputService, IInitializable, IDisposable
     private void OnMoveButtonReleased(InputAction.CallbackContext context)
     {
         MoveDirection = Vector3.zero;
+    }
+
+    private void OnJumpClicked(InputAction.CallbackContext context)
+    {
+        JumpButtonPressed?.Invoke();
     }
 }

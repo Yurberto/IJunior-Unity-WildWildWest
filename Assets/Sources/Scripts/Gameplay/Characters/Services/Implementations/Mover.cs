@@ -1,22 +1,13 @@
 using UnityEngine;
 
-public class HeroMover : IHeroMover
+public class Mover : IMover
 {
     private Rigidbody _rigidbody;
 
-    public HeroMover(Rigidbody rigidbody) =>
+    public Mover(Rigidbody rigidbody) =>
         _rigidbody = rigidbody;
 
     public void Move(float moveSpeed, Vector3 direction)
-    {
-        if (direction.sqrMagnitude.LessThenEpsilon())
-            return;
-
-        Vector3 targetVeclocity = direction.normalized * moveSpeed;
-        _rigidbody.velocity = targetVeclocity;
-    }
-
-    public void MoveInAir(float moveSpeed, Vector3 direction)
     {
         if (direction.sqrMagnitude.LessThenEpsilon())
             return;

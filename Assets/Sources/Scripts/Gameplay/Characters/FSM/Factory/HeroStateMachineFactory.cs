@@ -4,14 +4,14 @@ public class HeroStateMachineFactory
 {
     private readonly IInputService _inputService;
 
-    private readonly IHeroMover _mover;
+    private readonly IMover _mover;
     private readonly IJumper _jumper;
     private readonly IRotator _rotator;
 
     private readonly IHeroView _heroView;
     private readonly ICameraView _cameraView;
 
-    public HeroStateMachineFactory(IInputService inputService, IHeroMover mover, IJumper jumper, IRotator rotator, IHeroView heroView, ICameraView cameraView)
+    public HeroStateMachineFactory(IInputService inputService, IMover mover, IJumper jumper, IRotator rotator, IHeroView heroView, ICameraView cameraView)
     {
         _inputService = inputService;
         _mover = mover;
@@ -26,7 +26,7 @@ public class HeroStateMachineFactory
         List<IState> exitableStates = new List<IState>()
         {
             new HeroIdleState(_inputService),
-            new HeroMoveOnGroundState(_inputService, _mover, _rotator, _heroView, _cameraView),
+            new HeroMoveOnGroundState(_inputService, _heroView, _cameraView, _mover, _rotator),
             new HeroJumpState(_inputService, _heroView.GroundDetector, _heroView, _cameraView, _mover, _jumper, _rotator)
         };
 
