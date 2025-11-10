@@ -37,8 +37,8 @@ public class ThirdPersonCameraService
         Quaternion rotation = Quaternion.Euler(_mouseY, _mouseX, 0);
         
         Vector3 distanceOffset = rotation * new Vector3(0, 0, -_cameraSetting.Distance);
-        Vector3 verticalOffset = Vector3.up * _cameraSetting.Height;
         Vector3 horizontalOffset = _camera.right * _cameraSetting.OffsetX;
+        Vector3 verticalOffset = Vector3.up * _cameraSetting.Height;
 
         Vector3 desiredPosition = _target.position + horizontalOffset + verticalOffset + distanceOffset;
 
