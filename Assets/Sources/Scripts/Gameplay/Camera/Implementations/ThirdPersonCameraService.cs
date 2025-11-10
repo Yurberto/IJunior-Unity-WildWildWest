@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ThirdPersonCameraService
@@ -43,7 +42,7 @@ public class ThirdPersonCameraService
         Vector3 desiredPosition = _target.position + horizontalOffset + verticalOffset + distanceOffset;
 
         _camera.position = desiredPosition;
-        _camera.LookAt(_target.position + Vector3.up * _cameraSetting.Height + _camera.right * _cameraSetting.OffsetX);
+        _camera.LookAt(_target.position + horizontalOffset + verticalOffset);
     }
 
     private void UpdateLook(Vector2 mouseDelta)
