@@ -3,7 +3,9 @@ using UnityEngine;
 public class GameplayInitializer : MonoBehaviour
 {
     [SerializeField] private Hero _hero;
+    [SerializeField] private Animator _playerAnimator;
     [SerializeField] private PlayerCamera _playerCamera;
+    [SerializeField] private WeaponPositionController _weaponPositionController;
 
     private InputService _inputService;
 
@@ -25,8 +27,9 @@ public class GameplayInitializer : MonoBehaviour
         IMover mover = new Mover(_hero.Rigidbody);
         IJumper jumper = new Jumper(_hero.Rigidbody);
         IRotator rotator = new Rotator();
+        IPlayerAnimator animator = new PlayerAnimator(_playerAnimator);
 
-        HeroStateMachineFactory stateMachineFactory = new(inputService, mover, jumper, rotator, _hero, _playerCamera);
+        HeroStateMachineFactory stateMachineFactory = new(animator, inputService, _weaponPositionController, mover, jumper, rotator, _hero, _playerCamera);
         StateMachine heroStateMachine = stateMachineFactory.Create();
 
         _hero.Construct(heroStateMachine);

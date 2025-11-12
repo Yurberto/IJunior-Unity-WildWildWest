@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class HeroJumpState : HeroMoveState, IEnterableState, IExitableState, IUpdatableState, IFixableState
 {
+    private readonly IPlayerAnimator _animator;
+    private readonly IWeaponPositionController _weaponPositionController;
+
     private readonly IGroundDetector _groundDetector;
     private readonly IJumper _jumper;
 
@@ -9,6 +12,8 @@ public class HeroJumpState : HeroMoveState, IEnterableState, IExitableState, IUp
 
     public HeroJumpState
         (
+        IPlayerAnimator animator,
+        IWeaponPositionController weaponPositionController,
         IInputService inputService,
         IGroundDetector groundDetector,
         IHeroView heroView,
@@ -18,6 +23,8 @@ public class HeroJumpState : HeroMoveState, IEnterableState, IExitableState, IUp
         IRotator rotator
         ) : base(inputService, heroView, cameraView, mover, rotator)
     {
+        _animator = animator;
+        _weaponPositionController = weaponPositionController;
         _groundDetector = groundDetector;
         _jumper = jumper;
     }
@@ -25,6 +32,9 @@ public class HeroJumpState : HeroMoveState, IEnterableState, IExitableState, IUp
     public void Enter()
     {
         Debug.Log("Jump_ENTER");
+
+        _weaponPositionController.OnJump();
+        _animator.OnJump();
         _jumper.Jump(HeroView.PlayerSetting.JumpForce);
     }
 

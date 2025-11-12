@@ -1,14 +1,17 @@
-using UnityEngine;
-
 public class HeroIdleState : IEnterableState, IUpdatableState, IExitableState
 {
+    private readonly IPlayerAnimator _animator;
     private readonly IInputService _inputService;
+
+    private readonly IWeaponPositionController _weaponPositionController;
 
     private IStateChanger _stateChanger;
 
-    public HeroIdleState(IInputService inputService)
+    public HeroIdleState(IPlayerAnimator playerAnimator, IInputService inputService, IWeaponPositionController weaponPositionController)
     {
+        _animator = playerAnimator;
         _inputService = inputService;
+        _weaponPositionController = weaponPositionController;
     }
 
     public void SetStateChanger(IStateChanger stateChanger)
@@ -19,7 +22,8 @@ public class HeroIdleState : IEnterableState, IUpdatableState, IExitableState
     public void Enter()
     {
         UnityEngine.Debug.Log("Idle_ENTER");
-
+        _animator.OnIdle();
+        _weaponPositionController.OnIdle();
         _inputService.JumpButtonPressed += ChangeToJumpState;
     }
 
