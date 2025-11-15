@@ -9,6 +9,7 @@ public class HeroStateMachineFactory
     private readonly IMover _mover;
     private readonly IJumper _jumper;
     private readonly IRotator _rotator;
+    private readonly IShooter _shooter;
 
     private readonly IHeroView _heroView;
     private readonly ICameraView _cameraView;
@@ -20,6 +21,7 @@ public class HeroStateMachineFactory
         IWeaponPositionController weaponPositionController,
         IMover mover, IJumper jumper,
         IRotator rotator,
+        IShooter shooter,
         IHeroView heroView, 
         ICameraView cameraView
         )
@@ -30,6 +32,7 @@ public class HeroStateMachineFactory
         _mover = mover;
         _jumper = jumper;
         _rotator = rotator;
+        _shooter = shooter;
         _heroView = heroView;
         _cameraView = cameraView;
     }
@@ -40,6 +43,7 @@ public class HeroStateMachineFactory
         {
             new HeroIdleState(_animator, _inputService, _weaponPositionController),
             new HeroMoveOnGroundState(_animator, _weaponPositionController, _inputService, _heroView, _cameraView, _mover, _rotator),
+            new HeroAttackState(_inputService, _heroView, _cameraView, _mover, _rotator, _shooter),
             new HeroJumpState(_animator, _weaponPositionController, _inputService, _heroView.GroundDetector, _heroView, _cameraView, _mover, _jumper, _rotator)
         };
 

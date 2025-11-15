@@ -24,14 +24,17 @@ public class HeroIdleState : IEnterableState, IUpdatableState, IExitableState
         UnityEngine.Debug.Log("Idle_ENTER");
         _animator.OnIdle();
         _weaponPositionController.OnIdle();
-        _inputService.JumpButtonPressed += ChangeToJumpState;
+
+        _inputService.JumpPressed += ChangeToJumpState;
+        _inputService.ShootPressed += ChangeToAttackState;
     }
 
     public void Exit()
     {
         UnityEngine.Debug.Log("Idle_Exit");
 
-        _inputService.JumpButtonPressed -= ChangeToJumpState;
+        _inputService.JumpPressed -= ChangeToJumpState;
+        _inputService.ShootPressed -= ChangeToAttackState;
     }
 
     public void Update()
@@ -40,13 +43,12 @@ public class HeroIdleState : IEnterableState, IUpdatableState, IExitableState
             ChangeToMoveOnGroundState();
     }
 
-    private void ChangeToJumpState()
-    {
+    private void ChangeToJumpState() =>
         _stateChanger.ChangeState<HeroJumpState>();
-    }
 
-    private void ChangeToMoveOnGroundState()
-    {
+    private void ChangeToMoveOnGroundState() =>
         _stateChanger.ChangeState<HeroMoveOnGroundState>();
-    }
+
+    private void ChangeToAttackState() =>
+        _stateChanger.ChangeState<HeroAttackState>();
 }

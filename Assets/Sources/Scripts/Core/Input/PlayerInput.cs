@@ -62,6 +62,33 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""GetMainWeapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""ddb4629e-f49d-4dbd-abe1-fa5129a86363"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PutAwayWeapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""ec9c417b-dcbd-407a-a907-6a6aba542eff"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""GetNextWeapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""c6b91fd2-0ef4-4ef6-aa33-2845e3c9a312"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -152,6 +179,39 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""10e9fcf3-7841-49ec-ac24-48c84fcfdb5c"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GetMainWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d2102fb4-0a4b-4584-8bb4-05f7f824177c"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PutAwayWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""11363bf6-e14c-4207-a1ef-64ed80ec3520"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GetNextWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -181,6 +241,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
+        m_Player_GetMainWeapon = m_Player.FindAction("GetMainWeapon", throwIfNotFound: true);
+        m_Player_PutAwayWeapon = m_Player.FindAction("PutAwayWeapon", throwIfNotFound: true);
+        m_Player_GetNextWeapon = m_Player.FindAction("GetNextWeapon", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -246,6 +309,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Jump;
+    private readonly InputAction m_Player_GetMainWeapon;
+    private readonly InputAction m_Player_PutAwayWeapon;
+    private readonly InputAction m_Player_GetNextWeapon;
     public struct PlayerActions
     {
         private @PlayerInput m_Wrapper;
@@ -254,6 +320,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
+        public InputAction @GetMainWeapon => m_Wrapper.m_Player_GetMainWeapon;
+        public InputAction @PutAwayWeapon => m_Wrapper.m_Player_PutAwayWeapon;
+        public InputAction @GetNextWeapon => m_Wrapper.m_Player_GetNextWeapon;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -275,6 +344,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
+            @GetMainWeapon.started += instance.OnGetMainWeapon;
+            @GetMainWeapon.performed += instance.OnGetMainWeapon;
+            @GetMainWeapon.canceled += instance.OnGetMainWeapon;
+            @PutAwayWeapon.started += instance.OnPutAwayWeapon;
+            @PutAwayWeapon.performed += instance.OnPutAwayWeapon;
+            @PutAwayWeapon.canceled += instance.OnPutAwayWeapon;
+            @GetNextWeapon.started += instance.OnGetNextWeapon;
+            @GetNextWeapon.performed += instance.OnGetNextWeapon;
+            @GetNextWeapon.canceled += instance.OnGetNextWeapon;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -291,6 +369,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
+            @GetMainWeapon.started -= instance.OnGetMainWeapon;
+            @GetMainWeapon.performed -= instance.OnGetMainWeapon;
+            @GetMainWeapon.canceled -= instance.OnGetMainWeapon;
+            @PutAwayWeapon.started -= instance.OnPutAwayWeapon;
+            @PutAwayWeapon.performed -= instance.OnPutAwayWeapon;
+            @PutAwayWeapon.canceled -= instance.OnPutAwayWeapon;
+            @GetNextWeapon.started -= instance.OnGetNextWeapon;
+            @GetNextWeapon.performed -= instance.OnGetNextWeapon;
+            @GetNextWeapon.canceled -= instance.OnGetNextWeapon;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -323,5 +410,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnGetMainWeapon(InputAction.CallbackContext context);
+        void OnPutAwayWeapon(InputAction.CallbackContext context);
+        void OnGetNextWeapon(InputAction.CallbackContext context);
     }
 }

@@ -28,8 +28,9 @@ public class GameplayInitializer : MonoBehaviour
         IJumper jumper = new Jumper(_hero.Rigidbody);
         IRotator rotator = new Rotator();
         IPlayerAnimator animator = new PlayerAnimator(_playerAnimator);
+        IShooter shooter = new Shooter(_playerCamera.transform, _hero.Weapon, LayerData.Enemy);
 
-        HeroStateMachineFactory stateMachineFactory = new(animator, inputService, _weaponPositionController, mover, jumper, rotator, _hero, _playerCamera);
+        HeroStateMachineFactory stateMachineFactory = new(animator, inputService, _weaponPositionController, mover, jumper, rotator, shooter, _hero, _playerCamera);
         StateMachine heroStateMachine = stateMachineFactory.Create();
 
         _hero.Construct(heroStateMachine);

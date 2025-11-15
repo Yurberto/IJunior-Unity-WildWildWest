@@ -1,3 +1,6 @@
+using System;
+using Unity.VisualScripting;
+
 public class HeroMoveOnGroundState : HeroMoveState, IEnterableState, IExitableState
 {
     private readonly IPlayerAnimator _animator;
@@ -25,13 +28,15 @@ public class HeroMoveOnGroundState : HeroMoveState, IEnterableState, IExitableSt
 
         _weaponPositionController.OnMove();
         _animator.OnMove();
-        InputService.JumpButtonPressed += ChangeToJumpState;
+        InputService.JumpPressed += ChangeToJumpState;
+        InputService.ShootPressed += ChangeToAttackState;
     }
 
     public void Exit()
     {
         UnityEngine.Debug.Log("MoveOnGround_EXIT");
-        InputService.JumpButtonPressed -= ChangeToJumpState;
+        InputService.JumpPressed -= ChangeToJumpState;
+        InputService.ShootPressed -= ChangeToAttackState;
     }
 
     public override void Update()
@@ -46,13 +51,12 @@ public class HeroMoveOnGroundState : HeroMoveState, IEnterableState, IExitableSt
         base.Update();
     }
 
-    private void ChangeToJumpState()
-    {
+    private void ChangeToJumpState() =>
         StateChanger.ChangeState<HeroJumpState>();
-    }
 
-    private void ChangeToIdleState()
-    {
+    private void ChangeToIdleState() => 
         StateChanger.ChangeState<HeroIdleState>();
-    }
+
+    private void ChangeToAttackState() =>
+        StateChanger.ChangeState<HeroAttackState>();
 }
